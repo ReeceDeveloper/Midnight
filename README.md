@@ -1,3 +1,3 @@
 # Midnight
 
-A multi-purpose Discord bot written in Java using the Java Discord API.
+A multipurpose [Discord](https://discord.com/) bot written in Java using the [Java Discord API](https://github.com/discord-jda/JDA).
