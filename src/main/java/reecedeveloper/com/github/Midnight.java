@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reecedeveloper.com.github.configuration.Configuration;
+import reecedeveloper.com.github.listeners.EventListener;
 
 import java.time.Duration;
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class Midnight {
                     Configuration.getConfigInstance("Configuration.json").optString("botToken")
             ).build();
 
-            // Add the EventListener.
+            jdaObject.addEventListener(new EventListener(jdaObject));
 
             Scanner terminalScanner = new Scanner(System.in);
 
