@@ -19,6 +19,7 @@ public class Configuration extends JSONObject {
         configInstance = this;
     }
 
+    // TODO: Change the name of this, better yet, use better code logic.
     public static Configuration getConfigInstance(String filePath) {
         if (configInstance == null) {
             try {
@@ -28,6 +29,10 @@ public class Configuration extends JSONObject {
             }
         }
 
+        return configInstance;
+    }
+
+    public static Configuration getConfigInstance() {
         return configInstance;
     }
 }
