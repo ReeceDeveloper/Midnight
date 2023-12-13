@@ -3,8 +3,8 @@ package reecedeveloper.com.github.managers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import reecedeveloper.com.github.commands.Ping;
-import reecedeveloper.com.github.commands.Uptime;
+import reecedeveloper.com.github.commands.utility.Ping;
+import reecedeveloper.com.github.commands.utility.Uptime;
 import reecedeveloper.com.github.interfaces.DiscordEvent;
 import reecedeveloper.com.github.interfaces.SlashCommandEvent;
 
