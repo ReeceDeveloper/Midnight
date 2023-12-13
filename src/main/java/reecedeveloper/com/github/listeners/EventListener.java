@@ -3,16 +3,15 @@ package reecedeveloper.com.github.listeners;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reecedeveloper.com.github.interfaces.DiscordEvent;
+import reecedeveloper.com.github.managers.SlashCommandManager;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class EventListener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventListener.class);
@@ -32,7 +31,7 @@ public class EventListener extends ListenerAdapter {
     }
 
     private void initEventMap(JDA jdaObject) {
-        // TODO: add desired events (i.e., SlashCommandInteractionEvent).
+        discordEvents.put(SlashCommandInteractionEvent.class, Collections.singletonList(new SlashCommandManager(jdaObject)));
     }
 
     @Override
