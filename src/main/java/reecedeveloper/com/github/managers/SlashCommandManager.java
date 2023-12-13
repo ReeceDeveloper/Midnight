@@ -3,6 +3,7 @@ package reecedeveloper.com.github.managers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import reecedeveloper.com.github.commands.owner.Presence;
 import reecedeveloper.com.github.commands.utility.Ping;
 import reecedeveloper.com.github.commands.utility.Uptime;
 import reecedeveloper.com.github.interfaces.DiscordEvent;
@@ -32,6 +33,8 @@ public class SlashCommandManager implements DiscordEvent {
     private void initCommandMap() {
         registerCommand(new Ping());
         registerCommand(new Uptime());
+
+        registerCommand(new Presence());
     }
 
     @Override

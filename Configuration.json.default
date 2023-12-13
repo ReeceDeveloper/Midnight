@@ -1,3 +1,4 @@
 {
   "botToken": "https://discord.com/developers/applications/BOT_ID/bot - Get your bot token here!"
+  "ownerId": "Discord -> Settings -> Advanced -> Developer Mode (On) -> Click Your Name -> Copy User ID."
 }
