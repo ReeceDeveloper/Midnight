@@ -1,8 +1,4 @@
-# Midnight
-
-A multipurpose [Discord](https://discord.com/) bot written in Java using the [Java Discord API](https://github.com/discord-jda/JDA).
-
-## The MIT License (MIT)
+# The MIT License (MIT)
 
 Copyright © 2023 - ReeceDeveloper
 
