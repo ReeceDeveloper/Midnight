@@ -1,4 +1,7 @@
 {
-  "botToken": "https://discord.com/developers/applications/BOT_ID/bot - Get your bot token here!"
-  "ownerId": "Discord -> Settings -> Advanced -> Developer Mode (On) -> Click Your Name -> Copy User ID."
+  "botToken": "https://discord.com/developers/applications/BOT_ID/bot - Get your bot token here!",
+  "ownerId": "Discord -> Settings -> Advanced -> Developer Mode (On) -> Click Your Name -> Copy User ID.",
+  "dbUrl": "Connection URL (jdbc:postgresql://your-database-host:your-port/your-database-name).",
+  "dbUser": "Database username.",
+  "dbPass": "Database password."
 }
