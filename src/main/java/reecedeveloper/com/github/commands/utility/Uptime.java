@@ -39,7 +39,7 @@ public class Uptime implements SlashCommandEvent {
         String formattedUptime = getFormattedUptime();
 
         slashCommandEvent.getHook().editOriginalEmbeds(Embeds.informationEmbed(String.format(
-                "Midnight has been online for %s", formattedUptime
+                "Midnight has been online for %s.", formattedUptime
         ))).queue();
     }
 
