@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import reecedeveloper.com.github.configuration.Configuration;
 import reecedeveloper.com.github.listeners.EventListener;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Scanner;
 
@@ -36,8 +38,16 @@ public class Midnight {
 
     public static void main(String[] args) {
         try {
+            new Configuration(new File("Configuration.json"));
+        } catch(IOException configLoadError) {
+            LOGGER.error("Unable to load the configuration file.");
+
+            System.exit(-1); // TODO: Perhaps setup a list of hex codes that indicate shutdown status?
+        }
+
+        try {
             JDA jdaObject = JDABuilder.createDefault(
-                    Configuration.getConfigInstance("Configuration.json").optString("botToken")
+                    Configuration.getConfigInstance().optString("botToken")
             ).build();
 
             jdaObject.addEventListener(new EventListener(jdaObject));
@@ -60,7 +70,7 @@ public class Midnight {
                         if (!jdaObject.awaitShutdown(Duration.ofMinutes(5))) {
                             LOGGER.error("JDA took more than 5 minutes to forcibly shut down. Killing process.");
 
-                            System.exit(-1); // TODO: Perhaps setup a list of hex codes that indicate shutdown status?
+                            System.exit(-1); // TODO: See previous TODO.
                         }
                     }
 
