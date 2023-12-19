@@ -24,8 +24,13 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import reecedeveloper.com.github.configuration.Configuration;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class DatabaseManager {
-    private static HikariDataSource dataSource;
+    private static HikariDataSource hikariDataSource;
 
     public DatabaseManager() {
         initializeDatabase();
@@ -44,10 +49,51 @@ public class DatabaseManager {
         hikariConfig.setUsername(DB_USER);
         hikariConfig.setPassword(DB_PASS);
 
-        dataSource = new HikariDataSource(hikariConfig);
+        hikariDataSource = new HikariDataSource(hikariConfig);
     }
 
-    public static HikariDataSource getDatasource() {
-        return dataSource;
+    // TODO: Ideally this can be removed to avoid exposing the hikariDataSource to other classes.
+    public static HikariDataSource getHikariDataSource() {
+        return hikariDataSource;
+    }
+
+    public int executeUpdate(String sqlQuery, Object[] parameters) {
+        try (Connection hikariConnection = getHikariDataSource().getConnection();
+             PreparedStatement preparedStatement = hikariConnection.prepareStatement(sqlQuery)) {
+
+            setParameters(preparedStatement, parameters);
+
+            if (preparedStatement.execute()) {
+                return preparedStatement.getUpdateCount();
+            } else {
+                return -1; // TODO: Indicate success for non-SELECT queries.
+            }
+        } catch (SQLException sqlUpdateError) {
+            return -2; // TODO: Indicate whole failure.
+        }
+    }
+
+    public ResultSet executeQuery(String sqlQuery, Object[] parameters) {
+        try (Connection hikariConnection = getHikariDataSource().getConnection();
+             PreparedStatement preparedStatement = hikariConnection.prepareStatement(sqlQuery)) {
+
+            setParameters(preparedStatement, parameters);
+
+            return preparedStatement.executeQuery(); // TODO: This should work as-is, but there may be edge cases.
+        } catch (SQLException sqlQueryError) {
+            return null; // TODO: Indicate failure.
+        }
+    }
+
+    /////////////////////
+    // HELPER FUNCTION //
+    /////////////////////
+
+    private static void setParameters(PreparedStatement preparedStatement, Object[] parameters) throws SQLException {
+        if (parameters != null) {
+            for (int idx = 0; idx < parameters.length; ++idx) {
+                preparedStatement.setObject((idx + 1), parameters[idx]);
+            }
+        }
     }
 }
