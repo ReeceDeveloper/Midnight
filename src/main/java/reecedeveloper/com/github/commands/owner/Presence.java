@@ -29,44 +29,44 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import reecedeveloper.com.github.configuration.Configuration;
 import reecedeveloper.com.github.embeds.Embeds;
-import reecedeveloper.com.github.interfaces.SlashCommandEvent;
+import reecedeveloper.com.github.interfaces.DSlashCommandInteractionEvent;
 
 import java.util.Objects;
 
 // TODO: This can be done much better, but for Revision 1, it's okay(-ish).
 
-public class Presence implements SlashCommandEvent {
+public class Presence implements DSlashCommandInteractionEvent {
     @Override
-    public void execute(SlashCommandInteractionEvent slashCommandEvent) {
+    public void handleSlashCommandInteractionEvent(SlashCommandInteractionEvent slashCommandInteractionEvent) {
         long ownerId = Configuration.getConfigInstance().optLong("ownerId");
-        long invokerUserId = slashCommandEvent.getUser().getIdLong();
+        long invokerUserId = slashCommandInteractionEvent.getUser().getIdLong();
 
         if (invokerUserId != ownerId) {
-            slashCommandEvent.replyEmbeds(Embeds.errorEmbed(
+            slashCommandInteractionEvent.replyEmbeds(Embeds.errorEmbed(
                     "Insufficient permissions."
             )).queue();
 
             return;
         }
 
-        String presenceOption = Objects.requireNonNull(slashCommandEvent.getOption("presence")).getAsString();
-        String activityOption = Objects.requireNonNull(slashCommandEvent.getOption("activity")).getAsString();
+        String presenceOption = Objects.requireNonNull(slashCommandInteractionEvent.getOption("presence")).getAsString();
+        String activityOption = Objects.requireNonNull(slashCommandInteractionEvent.getOption("activity")).getAsString();
         String statusOption = "";
 
         try {
-            statusOption = Objects.requireNonNull(slashCommandEvent.getOption("status")).getAsString();
+            statusOption = Objects.requireNonNull(slashCommandInteractionEvent.getOption("status")).getAsString();
         } catch (NullPointerException ignored) {}
 
         OnlineStatus onlineStatus = getOnlineStatus(presenceOption);
 
         if (statusOption.isEmpty()) {
             if (!activityOption.equals("customStatus")) {
-                slashCommandEvent.replyEmbeds(Embeds.warningEmbed(
+                slashCommandInteractionEvent.replyEmbeds(Embeds.warningEmbed(
                         "Midnight's presence has been updated, though no status for the activity was provided."
                 )).queue();
             }
 
-            slashCommandEvent.getJDA().getPresence().setStatus(onlineStatus);
+            slashCommandInteractionEvent.getJDA().getPresence().setStatus(onlineStatus);
 
             return;
         }
@@ -74,13 +74,13 @@ public class Presence implements SlashCommandEvent {
         Activity activity = getActivity(activityOption, statusOption);
 
         if (onlineStatus != null && activity != null) {
-            slashCommandEvent.getJDA().getPresence().setPresence(onlineStatus, activity);
+            slashCommandInteractionEvent.getJDA().getPresence().setPresence(onlineStatus, activity);
 
-            slashCommandEvent.replyEmbeds(Embeds.informationEmbed(
+            slashCommandInteractionEvent.replyEmbeds(Embeds.informationEmbed(
                     "Midnight's status has been updated."
             )).queue();
         } else {
-            slashCommandEvent.replyEmbeds(Embeds.errorEmbed(
+            slashCommandInteractionEvent.replyEmbeds(Embeds.errorEmbed(
                     "Invalid status or activity."
             )).queue();
         }

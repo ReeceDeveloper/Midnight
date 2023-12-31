@@ -24,21 +24,21 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import reecedeveloper.com.github.embeds.Embeds;
-import reecedeveloper.com.github.interfaces.SlashCommandEvent;
+import reecedeveloper.com.github.interfaces.DSlashCommandInteractionEvent;
 
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Uptime implements SlashCommandEvent {
+public class Uptime implements DSlashCommandInteractionEvent {
     @Override
-    public void execute(SlashCommandInteractionEvent slashCommandEvent) {
-        slashCommandEvent.deferReply(true).queue();
+    public void handleSlashCommandInteractionEvent(SlashCommandInteractionEvent slashCommandInteractionEvent) {
+        slashCommandInteractionEvent.deferReply(true).queue();
 
         String formattedUptime = getFormattedUptime();
 
-        slashCommandEvent.getHook().editOriginalEmbeds(Embeds.informationEmbed(String.format(
+        slashCommandInteractionEvent.getHook().editOriginalEmbeds(Embeds.informationEmbed(String.format(
                 "Midnight has been online for %s.", formattedUptime
         ))).queue();
     }

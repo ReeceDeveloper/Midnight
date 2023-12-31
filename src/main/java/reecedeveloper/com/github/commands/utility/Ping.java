@@ -24,15 +24,15 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import reecedeveloper.com.github.embeds.Embeds;
-import reecedeveloper.com.github.interfaces.SlashCommandEvent;
+import reecedeveloper.com.github.interfaces.DSlashCommandInteractionEvent;
 
-public class Ping implements SlashCommandEvent {
+public class Ping implements DSlashCommandInteractionEvent {
     @Override
-    public void execute(SlashCommandInteractionEvent slashCommandEvent) {
-        long gatewayPing = slashCommandEvent.getJDA().getGatewayPing();
+    public void handleSlashCommandInteractionEvent(SlashCommandInteractionEvent slashCommandInteractionEvent) {
+        long gatewayPing = slashCommandInteractionEvent.getJDA().getGatewayPing();
 
-        slashCommandEvent.getJDA().getRestPing().queue(restResponsePing -> {
-            slashCommandEvent.replyEmbeds(Embeds.informationEmbed(String.format(
+        slashCommandInteractionEvent.getJDA().getRestPing().queue(restResponsePing -> {
+            slashCommandInteractionEvent.replyEmbeds(Embeds.informationEmbed(String.format(
                     "Gateway ping is **%d** milliseconds, and the REST response was **%d** milliseconds.", gatewayPing, restResponsePing
             ))).setEphemeral(true).queue();
         });
