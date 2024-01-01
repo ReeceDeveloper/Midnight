@@ -4,8 +4,13 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import reecedeveloper.com.github.interfaces.DGenericEvent;
+import reecedeveloper.com.github.managers.ComponentManager;
 import reecedeveloper.com.github.managers.SlashCommandManager;
 
 import java.util.Arrays;
@@ -29,6 +34,16 @@ public class EventListener extends ListenerAdapter {
         );
 
         eventManagerMap.put(slashCommandEventList, new SlashCommandManager(jdaObject));
+
+        // Components.
+        List<Class<? extends GenericEvent>> componentEventList = Arrays.asList(
+                ButtonInteractionEvent.class,
+                GenericSelectMenuInteractionEvent.class, // TODO - not this one(?).
+                StringSelectInteractionEvent.class,
+                EntitySelectInteractionEvent.class
+        );
+
+        eventManagerMap.put(componentEventList, new ComponentManager(jdaObject));
 
         // Other events and their managers.
     }
