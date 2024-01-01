@@ -19,7 +19,8 @@ public class ButtonTest implements DSlashCommandInteractionEvent, DButtonInterac
         slashCommandInteractionEvent.replyEmbeds(Embeds.informationEmbed(
                 "You have summoned the button!"
         )).addActionRow(
-                Button.primary(getButtonData().getButtonIdStrings().get(0), "BUTTON")
+                Button.primary(getButtonData().getButtonIdStrings().get(0), "BUTTON"),
+                Button.danger(getButtonData().getButtonIdStrings().get(1), "DELETE")
         ).queue();
     }
 
@@ -30,15 +31,21 @@ public class ButtonTest implements DSlashCommandInteractionEvent, DButtonInterac
 
     @Override
     public void handleButtonInteractionEvent(ButtonInteractionEvent buttonInteractionEvent) {
-        buttonInteractionEvent.replyEmbeds(Embeds.informationEmbed(
-                buttonInteractionEvent.getUser().getAsMention() + " pressed the button!"
-        )).queue();
+        if (buttonInteractionEvent.getComponentId().equals(getButtonData().getButtonIdStrings().get(1))) {
+            buttonInteractionEvent.editMessageEmbeds(Embeds.informationEmbed(
+                    buttonInteractionEvent.getUser().getAsMention() + " deleted the button!"
+            )).setComponents().queue();
+        } else {
+            buttonInteractionEvent.replyEmbeds(Embeds.informationEmbed(
+                    buttonInteractionEvent.getUser().getAsMention() + " pressed the button!"
+            )).queue();
+        }
     }
 
     @Override
     public ButtonData getButtonData() {
         return ButtonData.data(this, List.of(
-                "BUTTON_ONE"
+                "BUTTON_ONE", "BUTTON_TWO"
         ));
     }
 }
