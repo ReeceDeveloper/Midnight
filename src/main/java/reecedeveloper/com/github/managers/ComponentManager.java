@@ -3,11 +3,8 @@ package reecedeveloper.com.github.managers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
-import reecedeveloper.com.github.commands.testing.ButtonTest;
 import reecedeveloper.com.github.interfaces.DGenericEvent;
-import reecedeveloper.com.github.utilities.ButtonData;
+import reecedeveloper.com.github.utilities.ComponentRecord;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,53 +16,31 @@ public class ComponentManager implements DGenericEvent {
     }
 
     private void initializeManagerMaps(JDA jdaObject) {
-        initializeButtonManagerMap();
+        initializeComponentMap(jdaObject);
     }
 
-    // TODO - I really dislike the structuring of this whole class/system. This must be done better.
+    private final Map<String, ComponentRecord<Class<?>>> componentMap = new HashMap<>();
 
-    private final Map<String, ButtonData> buttonDataMap = new HashMap<>();
-
-    private void registerButton(String name, ButtonData buttonData) {
-        buttonDataMap.put(name, buttonData);
+    private void registerComponent(ComponentRecord<Class<?>> componentData) {
+        componentMap.put(componentData.componentName(), componentData);
     }
 
-    private void initializeButtonManagerMap() {
-        registerButton("ButtonTest", new ButtonTest().getButtonData());
-    }
+    private void initializeComponentMap(JDA jdaObject) {
 
-    private void validateButtonInteractionEvent(ButtonInteractionEvent buttonInteractionEvent) {
-        for (Map.Entry<String, ButtonData> buttonData : buttonDataMap.entrySet()) {
-            List<String> buttonIdStrings = buttonData.getValue().getButtonIdStrings();
-
-            for (String buttonIdString : buttonIdStrings) {
-                if (buttonInteractionEvent.getComponentId().equals(buttonIdString)) {
-                    buttonData.getValue().getButtonInteractionEvent().handleButtonInteractionEvent(buttonInteractionEvent);
-                }
-            }
-        }
-    }
-
-    private void validateStringSelectInteractionEvent(StringSelectInteractionEvent stringSelectInteractionEvent) {
-        // Code.
-    }
-
-    private void validateEntitySelectInteractionEvent(EntitySelectInteractionEvent entitySelectInteractionEvent) {
-        // Code.
     }
 
     @Override
     public void handleGenericEvent(GenericEvent genericEvent) {
-        if (genericEvent instanceof ButtonInteractionEvent) {
-            validateButtonInteractionEvent((ButtonInteractionEvent) genericEvent); return;
-        }
+        for (Map.Entry<String, ComponentRecord<Class<?>>> componentRecord : componentMap.entrySet()) {
+            List<String> componentIds = componentRecord.getValue().componentIds();
 
-        if (genericEvent instanceof StringSelectInteractionEvent) {
-            validateStringSelectInteractionEvent((StringSelectInteractionEvent) genericEvent); return;
-        }
+            for (String componentId : componentIds) {
+                if (genericEvent instanceof ButtonInteractionEvent buttonInteractionEvent) {
+                    if (componentId.equals(buttonInteractionEvent.getComponentId())) {
 
-        if (genericEvent instanceof EntitySelectInteractionEvent) {
-            validateEntitySelectInteractionEvent((EntitySelectInteractionEvent) genericEvent);
+                    }
+                }
+            }
         }
     }
 }
