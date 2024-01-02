@@ -68,6 +68,10 @@ public class Presence implements DSlashCommandInteractionEvent {
 
             slashCommandInteractionEvent.getJDA().getPresence().setStatus(onlineStatus);
 
+            slashCommandInteractionEvent.replyEmbeds(Embeds.informationEmbed(
+                    "Midnight's status has been updated."
+            )).queue();
+
             return;
         }
 
