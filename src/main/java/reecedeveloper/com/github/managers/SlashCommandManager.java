@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import reecedeveloper.com.github.commands.owner.Presence;
 import reecedeveloper.com.github.commands.utility.Ping;
 import reecedeveloper.com.github.commands.utility.Uptime;
-import reecedeveloper.com.github.interfaces.DGenericEvent;
+import reecedeveloper.com.github.interfaces.GenericDiscordEvent;
 import reecedeveloper.com.github.interfaces.SlashCommandInteraction;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class SlashCommandManager implements DGenericEvent {
+public class SlashCommandManager implements GenericDiscordEvent {
     private final Map<String, SlashCommandInteraction> slashCommandMap = new HashMap<>();
 
     public SlashCommandManager(JDA jdaObject) {

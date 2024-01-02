@@ -3,14 +3,14 @@ package reecedeveloper.com.github.managers;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import reecedeveloper.com.github.interfaces.DGenericEvent;
+import reecedeveloper.com.github.interfaces.GenericDiscordEvent;
 import reecedeveloper.com.github.utilities.ComponentRecord;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ComponentManager implements DGenericEvent {
+public class ComponentManager implements GenericDiscordEvent {
     public ComponentManager(JDA jdaObject) {
         initializeManagerMaps(jdaObject);
     }

@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionE
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import reecedeveloper.com.github.interfaces.DGenericEvent;
+import reecedeveloper.com.github.interfaces.GenericDiscordEvent;
 import reecedeveloper.com.github.managers.ComponentManager;
 import reecedeveloper.com.github.managers.SlashCommandManager;
 
@@ -24,7 +24,7 @@ public class EventListener extends ListenerAdapter {
     }
 
     // Hash map containing a list of event classes (key) related to an implementation of DGenericEvent (value).
-    private final Map<List<Class<? extends GenericEvent>>, DGenericEvent> eventManagerMap = new HashMap<>();
+    private final Map<List<Class<? extends GenericEvent>>, GenericDiscordEvent> eventManagerMap = new HashMap<>();
 
     private void initializeManagerMap(JDA jdaObject) {
         // Slash commands.
@@ -53,7 +53,7 @@ public class EventListener extends ListenerAdapter {
         // TODO - if handling many events, this loop may be unoptimized and need performance-based revisions.
 
         // Check (read: for) every even manager contained within the event manager map.
-        for (Map.Entry<List<Class<? extends GenericEvent>>, DGenericEvent> eventManager : eventManagerMap.entrySet()) {
+        for (Map.Entry<List<Class<? extends GenericEvent>>, GenericDiscordEvent> eventManager : eventManagerMap.entrySet()) {
             // Get a list of all event classes handled by the current event manager.
             List<Class<? extends GenericEvent>> eventClasses = eventManager.getKey();
 
