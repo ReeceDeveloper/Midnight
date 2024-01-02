@@ -5,11 +5,10 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import reecedeveloper.com.github.commands.owner.Presence;
-import reecedeveloper.com.github.commands.testing.ButtonTest;
 import reecedeveloper.com.github.commands.utility.Ping;
 import reecedeveloper.com.github.commands.utility.Uptime;
 import reecedeveloper.com.github.interfaces.DGenericEvent;
-import reecedeveloper.com.github.interfaces.DSlashCommandInteractionEvent;
+import reecedeveloper.com.github.interfaces.SlashCommandInteraction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,18 +16,18 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SlashCommandManager implements DGenericEvent {
-    private final Map<String, DSlashCommandInteractionEvent> slashCommandMap = new HashMap<>();
+    private final Map<String, SlashCommandInteraction> slashCommandMap = new HashMap<>();
 
     public SlashCommandManager(JDA jdaObject) {
         initSlashCommandMap();
 
         jdaObject.updateCommands().addCommands(slashCommandMap.values().stream()
-                .map(DSlashCommandInteractionEvent::getSlashCommandData)
+                .map(SlashCommandInteraction::getSlashCommandData)
                 .collect(Collectors.toList())
         ).queue();
     }
 
-    private void registerSlashCommand(DSlashCommandInteractionEvent slashCommandEvent) {
+    private void registerSlashCommand(SlashCommandInteraction slashCommandEvent) {
         slashCommandMap.put(slashCommandEvent.getSlashCommandData().getName(), slashCommandEvent);
     }
 
@@ -37,8 +36,6 @@ public class SlashCommandManager implements DGenericEvent {
         registerSlashCommand(new Uptime());
 
         registerSlashCommand(new Presence());
-
-        registerSlashCommand(new ButtonTest());
     }
 
     @Override
@@ -50,10 +47,10 @@ public class SlashCommandManager implements DGenericEvent {
 
         SlashCommandInteractionEvent slashCommandInteractionEvent = (SlashCommandInteractionEvent) genericEvent;
 
-        DSlashCommandInteractionEvent dSlashCommandInteractionEvent = slashCommandMap.get(slashCommandInteractionEvent.getName());
+        SlashCommandInteraction slashCommandInteraction = slashCommandMap.get(slashCommandInteractionEvent.getName());
 
-        if (Objects.nonNull(dSlashCommandInteractionEvent)) { // Sanity check.
-            dSlashCommandInteractionEvent.handleSlashCommandInteractionEvent(slashCommandInteractionEvent);
+        if (Objects.nonNull(slashCommandInteraction)) { // Sanity check.
+            slashCommandInteraction.handleSlashCommandInteraction(slashCommandInteractionEvent);
         }
     }
 }

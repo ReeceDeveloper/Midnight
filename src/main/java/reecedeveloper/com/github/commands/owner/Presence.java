@@ -22,6 +22,7 @@ package reecedeveloper.com.github.commands.owner;
 
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -29,15 +30,15 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import reecedeveloper.com.github.configuration.Configuration;
 import reecedeveloper.com.github.embeds.Embeds;
-import reecedeveloper.com.github.interfaces.DSlashCommandInteractionEvent;
+import reecedeveloper.com.github.interfaces.SlashCommandInteraction;
 
 import java.util.Objects;
 
 // TODO: This can be done much better, but for Revision 1, it's okay(-ish).
 
-public class Presence implements DSlashCommandInteractionEvent {
+public class Presence implements SlashCommandInteraction {
     @Override
-    public void handleSlashCommandInteractionEvent(SlashCommandInteractionEvent slashCommandInteractionEvent) {
+    public void handleSlashCommandInteraction(SlashCommandInteractionEvent slashCommandInteractionEvent) {
         long ownerId = Configuration.getConfigInstance().optLong("ownerId");
         long invokerUserId = slashCommandInteractionEvent.getUser().getIdLong();
 
@@ -110,6 +111,13 @@ public class Presence implements DSlashCommandInteractionEvent {
                                 .addChoice("none", "customStatus")
                                 .setRequired(true)
                 ).addOption(OptionType.STRING, "status", "The status message of Midnight.", false);
+    }
+
+    @Override
+    public void handleCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent commandAutoCompleteInteractionEvent) {
+        // Logic: apparently Collections does this... I'm not a huge fan of it, but StackOverflow says it's okay(?).
+        // https://stackoverflow.com/questions/10572643/optional-methods-in-java-interface
+        throw new UnsupportedOperationException("This command does not use command auto-complete, stop sending events here.");
     }
 
     private OnlineStatus getOnlineStatus(String presenceOption) {
