@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import reecedeveloper.com.github.commands.owner.Presence;
+import reecedeveloper.com.github.commands.utility.ComponentTest;
 import reecedeveloper.com.github.commands.utility.Ping;
 import reecedeveloper.com.github.commands.utility.Uptime;
 import reecedeveloper.com.github.interfaces.GenericDiscordEvent;
@@ -36,6 +37,8 @@ public class SlashCommandManager implements GenericDiscordEvent {
         registerSlashCommand(new Uptime());
 
         registerSlashCommand(new Presence());
+
+        registerSlashCommand(new ComponentTest());
     }
 
     @Override

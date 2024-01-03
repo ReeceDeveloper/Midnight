@@ -1,9 +1,12 @@
 package reecedeveloper.com.github.interfaces;
 
+import net.dv8tion.jda.api.events.GenericEvent;
 import reecedeveloper.com.github.utilities.ComponentRecord;
 
-public interface ComponentInteraction {
-    void handleComponentInteraction(); // TODO - Create a generalized event structure.
+import java.util.List;
 
-    ComponentRecord getComponentData(); // TODO - Create a generalized component record.
+public interface ComponentInteraction {
+    void handleComponentInteraction(GenericEvent genericEvent);
+
+    List<ComponentRecord> getComponentData();
 }
