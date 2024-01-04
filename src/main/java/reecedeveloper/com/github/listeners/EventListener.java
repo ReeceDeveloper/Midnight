@@ -2,6 +2,7 @@ package reecedeveloper.com.github.listeners;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -11,9 +12,9 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import reecedeveloper.com.github.interfaces.GenericDiscordEvent;
 import reecedeveloper.com.github.managers.ComponentManager;
+import reecedeveloper.com.github.managers.ModalManager;
 import reecedeveloper.com.github.managers.SlashCommandManager;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class EventListener extends ListenerAdapter {
 
     private void initializeManagerMap(JDA jdaObject) {
         // Slash commands.
-        List<Class<? extends GenericEvent>> slashCommandEventList = Arrays.asList(
+        List<Class<? extends GenericEvent>> slashCommandEventList = List.of(
                 SlashCommandInteractionEvent.class,
                 CommandAutoCompleteInteractionEvent.class
         );
@@ -36,7 +37,7 @@ public class EventListener extends ListenerAdapter {
         eventManagerMap.put(slashCommandEventList, new SlashCommandManager(jdaObject));
 
         // Components.
-        List<Class<? extends GenericEvent>> componentEventList = Arrays.asList(
+        List<Class<? extends GenericEvent>> componentEventList = List.of(
                 ButtonInteractionEvent.class,
                 GenericSelectMenuInteractionEvent.class, // TODO - not this one(?).
                 StringSelectInteractionEvent.class,
@@ -44,6 +45,13 @@ public class EventListener extends ListenerAdapter {
         );
 
         eventManagerMap.put(componentEventList, new ComponentManager(jdaObject));
+
+        // Modals.
+        List<Class<? extends GenericEvent>> modalEventList = List.of(
+                ModalInteractionEvent.class
+        );
+
+        eventManagerMap.put(modalEventList, new ModalManager(jdaObject));
 
         // Other events and their managers.
     }
